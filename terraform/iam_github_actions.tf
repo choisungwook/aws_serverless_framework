@@ -196,3 +196,33 @@ data "aws_iam_policy_document" "github_action_s3" {
     resources = ["${aws_s3_bucket.serverless_s3.arn}/*"]
   }
 }
+
+resource "aws_iam_role_policy_attachment" "github_action" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.github_action.arn
+}
+
+resource "aws_iam_policy" "github_action" {
+  name   = "github-action-cloudwatch"
+  policy = data.aws_iam_policy_document.github_action.json
+}
+
+data "aws_iam_policy_document" "github_action" {
+  version = "2012-10-17"
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogStreams",
+      "logs:FilterLogEvents",
+      "logs:DescribeLogGroups",
+      "logs:PutLogEvents",
+      "logs:TagResource",
+      "logs:*",
+    ]
+
+    resources = ["*"]
+  }
+}
