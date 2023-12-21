@@ -8,8 +8,7 @@ provider:
     name: akbun-serverless-test
   # lambda에 설정할 IAM role
   iam:
-    role: arn:aws:s3:::akbun-serverless-test
-
+    role: arn:aws:iam::467606240901:role/lambda
 
 functions:
   main:

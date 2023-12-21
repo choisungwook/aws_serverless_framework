@@ -82,7 +82,8 @@ data "aws_iam_policy_document" "lambda_cloudwatch" {
       "logs:DescribeLogStreams",
       "logs:FilterLogEvents",
       "logs:DescribeLogGroups",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
+      "logs:TagResource",
     ]
 
     resources = ["*"]
