@@ -68,4 +68,14 @@ data "aws_iam_policy_document" "github_action_ecr" {
 
     resources = [aws_ecr_repository.github-action-test.arn]
   }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ecr:GetAuthorizationToken"
+    ]
+
+    resources = ["*"]
+  }
 }
