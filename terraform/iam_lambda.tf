@@ -24,8 +24,8 @@ resource "aws_iam_role_policy_attachment" "lambda_ecr_push" {
 }
 
 resource "aws_iam_policy" "lambda_ecr" {
-  name        = "lambda-ecr"
-  policy      = data.aws_iam_policy_document.lambda_ecr.json
+  name   = "lambda-ecr"
+  policy = data.aws_iam_policy_document.lambda_ecr.json
 }
 
 data "aws_iam_policy_document" "lambda_ecr" {
@@ -67,8 +67,8 @@ resource "aws_iam_role_policy_attachment" "lambda_cloudwatch" {
 }
 
 resource "aws_iam_policy" "lambda_cloudwatch" {
-  name        = "lambda-cloudwatch"
-  policy      = data.aws_iam_policy_document.lambda_cloudwatch.json
+  name   = "lambda-cloudwatch"
+  policy = data.aws_iam_policy_document.lambda_cloudwatch.json
 }
 
 data "aws_iam_policy_document" "lambda_cloudwatch" {

@@ -46,8 +46,8 @@ resource "aws_iam_role_policy_attachment" "github_action_ecr_push" {
 }
 
 resource "aws_iam_policy" "github_action_ecr" {
-  name        = "github-action-ecr"
-  policy      = data.aws_iam_policy_document.github_action_ecr.json
+  name   = "github-action-ecr"
+  policy = data.aws_iam_policy_document.github_action_ecr.json
 }
 
 data "aws_iam_policy_document" "github_action_ecr" {
@@ -89,8 +89,8 @@ resource "aws_iam_role_policy_attachment" "github_action_lambda" {
 }
 
 resource "aws_iam_policy" "github_action_lambda" {
-  name        = "github-action-lambda"
-  policy      = data.aws_iam_policy_document.github_action_lambda.json
+  name   = "github-action-lambda"
+  policy = data.aws_iam_policy_document.github_action_lambda.json
 }
 
 data "aws_iam_policy_document" "github_action_lambda" {
@@ -122,8 +122,8 @@ resource "aws_iam_role_policy_attachment" "github_action_cloudfromation" {
 }
 
 resource "aws_iam_policy" "github_action_cloudfromation" {
-  name        = "github-action-cloudformation"
-  policy      = data.aws_iam_policy_document.github_action_cloudfromation.json
+  name   = "github-action-cloudformation"
+  policy = data.aws_iam_policy_document.github_action_cloudfromation.json
 }
 
 data "aws_iam_policy_document" "github_action_cloudfromation" {
@@ -158,8 +158,8 @@ resource "aws_iam_role_policy_attachment" "github_action_s3" {
 }
 
 resource "aws_iam_policy" "github_action_s3" {
-  name        = "github-action-s3"
-  policy      = data.aws_iam_policy_document.github_action_s3.json
+  name   = "github-action-s3"
+  policy = data.aws_iam_policy_document.github_action_s3.json
 }
 
 data "aws_iam_policy_document" "github_action_s3" {
