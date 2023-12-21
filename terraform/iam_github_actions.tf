@@ -138,6 +138,7 @@ data "aws_iam_policy_document" "github_action_cloudfromation" {
       "cloudformation:CreateStack",
       "cloudformation:CreateUploadBucket",
       "cloudformation:DeleteStack",
+      "cloudformation:DeleteChangeSet",
       "cloudformation:Describe*",
       "cloudformation:EstimateTemplateCost",
       "cloudformation:ExecuteChangeSet",
