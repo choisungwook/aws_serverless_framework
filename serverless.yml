@@ -1,0 +1,9 @@
+service: serverless-github-actions # 배포하려는 서비스 이름
+
+provider:
+  name: aws
+  region: ap-northeast-2
+
+functions:
+  main:
+    image: ${env:MY_AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/github-action-test

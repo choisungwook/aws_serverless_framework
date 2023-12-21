@@ -86,3 +86,65 @@ data "aws_iam_policy_document" "github_action_ecr" {
     resources = ["*"]
   }
 }
+
+resource "aws_iam_role_policy_attachment" "github_action_lambda" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.github_action_lambda.arn
+}
+
+resource "aws_iam_policy" "github_action_lambda" {
+  name        = "github-action-lambda"
+  policy      = data.aws_iam_policy_document.github_action_lambda.json
+}
+
+data "aws_iam_policy_document" "github_action_lambda" {
+  version = "2012-10-17"
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "lambda:AddPermission",
+      "lambda:CreateFunction",
+      "lambda:GetFunction",
+      "lambda:GetFunctionCodeSigningConfig",
+      "lambda:ListTags",
+      "lambda:ListVersionsByFunction",
+      "lambda:PublishVersion",
+      "lambda:PutFunctionCodeSigningConfig",
+      "lambda:UpdateFunctionCode",
+      "lambda:DeleteFunction",
+      "iam:PassRole"
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "github_action_cloudfromation" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.github_action_cloudfromation.arn
+}
+
+resource "aws_iam_policy" "github_action_cloudfromation" {
+  name        = "github-action-cloudformation"
+  policy      = data.aws_iam_policy_document.github_action_cloudfromation.json
+}
+
+data "aws_iam_policy_document" "github_action_cloudfromation" {
+  version = "2012-10-17"
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "cloudformation:Describe*",
+      "cloudformation:List*",
+      "cloudformation:Get*",
+      "cloudformation:PreviewStackUpdate",
+      "cloudformation:CreateStack",
+      "cloudformation:UpdateStack",
+      "cloudformation:DeleteStack"
+    ]
+
+    resources = ["*"]
+  }
+}

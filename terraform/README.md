@@ -4,3 +4,4 @@
 * https://github.com/voquis/terraform-aws-github-actions-oidc-role/blob/main/main.tf
 * https://zerone-code.tistory.com/11
 * ECR IAM policy: https://github.com/aws/aws-toolkit-azure-devops/issues/311#issuecomment-623871181
+* lambda IAM policy: https://alsmola.medium.com/github-actions-signing-lambda-code-5b7444299b
