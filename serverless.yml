@@ -3,8 +3,13 @@ service: serverless-github-actions # 배포하려는 서비스 이름
 provider:
   name: aws
   region: ap-northeast-2
+  # cloudformation을 저장할 S3
   deploymentBucket:
     name: akbun-serverless-test
+  # lambda에 설정할 IAM role
+  iam:
+    role: arn:aws:s3:::akbun-serverless-test
+
 
 functions:
   main:

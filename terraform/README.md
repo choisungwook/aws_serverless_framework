@@ -13,3 +13,4 @@
 * lambda IAM policy: https://alsmola.medium.com/github-actions-signing-lambda-code-5b7444299b
 * cloudformation IMA policy: https://sst.dev/archives/customize-the-serverless-iam-policy.html
 * serverless.yml 필드: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+* lambda IAM policy: https://www.serverless.com/framework/docs/providers/aws/guide/iam

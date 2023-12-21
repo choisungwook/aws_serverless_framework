@@ -1,7 +1,3 @@
-////
-// github action IAM role
-////
-
 resource "aws_iam_openid_connect_provider" "github_actions" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
@@ -150,35 +146,6 @@ data "aws_iam_policy_document" "github_action_cloudfromation" {
       "cloudformation:UpdateStack",
       "cloudformation:UpdateTerminationProtection",
       "cloudformation:ValidateTemplate"
-    ]
-
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "github_action_cloudwatch" {
-  role       = aws_iam_role.github_actions.name
-  policy_arn = aws_iam_policy.github_action_cloudwatch.arn
-}
-
-resource "aws_iam_policy" "github_action_cloudwatch" {
-  name        = "github-action-cloudwatch"
-  policy      = data.aws_iam_policy_document.github_action_cloudwatch.json
-}
-
-data "aws_iam_policy_document" "github_action_cloudwatch" {
-  version = "2012-10-17"
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:DescribeLogStreams",
-      "logs:FilterLogEvents",
-      "logs:DescribeLogGroups",
-      "logs:PutLogEvents",
-      "logs:*",
     ]
 
     resources = ["*"]
