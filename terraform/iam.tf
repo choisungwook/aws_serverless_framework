@@ -136,15 +136,56 @@ data "aws_iam_policy_document" "github_action_cloudfromation" {
     effect = "Allow"
 
     actions = [
-      "cloudformation:Describe*",
-      "cloudformation:List*",
-      "cloudformation:Get*",
-      "cloudformation:PreviewStackUpdate",
+      "cloudformation:CancelUpdateStack",
+      "cloudformation:ContinueUpdateRollback",
+      "cloudformation:CreateChangeSet",
       "cloudformation:CreateStack",
+      "cloudformation:CreateUploadBucket",
+      "cloudformation:DeleteStack",
+      "cloudformation:Describe*",
+      "cloudformation:EstimateTemplateCost",
+      "cloudformation:ExecuteChangeSet",
+      "cloudformation:Get*",
+      "cloudformation:List*",
       "cloudformation:UpdateStack",
-      "cloudformation:DeleteStack"
+      "cloudformation:UpdateTerminationProtection"
     ]
 
     resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "github_action_s3" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.github_action_s3.arn
+}
+
+resource "aws_iam_policy" "github_action_s3" {
+  name        = "github-action-s3"
+  policy      = data.aws_iam_policy_document.github_action_s3.json
+}
+
+data "aws_iam_policy_document" "github_action_s3" {
+  version = "2012-10-17"
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:CreateBucket",
+      "s3:DeleteBucket",
+      "s3:DeleteBucketPolicy",
+      "s3:DeleteObject",
+      "s3:DeleteObjectVersion",
+      "s3:Get*",
+      "s3:List*",
+      "s3:PutBucketNotification",
+      "s3:PutBucketPolicy",
+      "s3:PutBucketTagging",
+      "s3:PutBucketWebsite",
+      "s3:PutEncryptionConfiguration",
+      "s3:PutObject"
+    ]
+
+    resources = [aws_s3_bucket.serverless_s3.arn]
   }
 }
