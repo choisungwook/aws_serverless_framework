@@ -6,4 +6,4 @@ provider:
 
 functions:
   main:
-    image: ${env:MY_AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/github-action-test
+    image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/github-action-test:latest
