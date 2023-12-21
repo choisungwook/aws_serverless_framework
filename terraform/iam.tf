@@ -61,9 +61,16 @@ data "aws_iam_policy_document" "github_action_ecr" {
     effect = "Allow"
 
     actions = [
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeImages",
+      "ecr:DescribeRepositories",
+      "ecr:GetDownloadUrlForLayer",
       "ecr:InitiateLayerUpload",
+      "ecr:ListImages",
       "ecr:PutImage",
-      "ecr:UploadLayerPart",
+      "ecr:UploadLayerPart"
     ]
 
     resources = [aws_ecr_repository.github-action-test.arn]
