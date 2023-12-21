@@ -148,7 +148,37 @@ data "aws_iam_policy_document" "github_action_cloudfromation" {
       "cloudformation:Get*",
       "cloudformation:List*",
       "cloudformation:UpdateStack",
-      "cloudformation:UpdateTerminationProtection"
+      "cloudformation:UpdateTerminationProtection",
+      "cloudformation:ValidateTemplate"
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "github_action_cloudwatch" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = aws_iam_policy.github_action_cloudwatch.arn
+}
+
+resource "aws_iam_policy" "github_action_cloudwatch" {
+  name        = "github-action-cloudwatch"
+  policy      = data.aws_iam_policy_document.github_action_cloudwatch.json
+}
+
+data "aws_iam_policy_document" "github_action_cloudwatch" {
+  version = "2012-10-17"
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DescribeLogStreams",
+      "logs:FilterLogEvents",
+      "logs:DescribeLogGroups",
+      "logs:PutLogEvents",
+      "logs:*",
     ]
 
     resources = ["*"]
@@ -187,5 +217,15 @@ data "aws_iam_policy_document" "github_action_s3" {
     ]
 
     resources = [aws_s3_bucket.serverless_s3.arn]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = ["${aws_s3_bucket.serverless_s3.arn}/*"]
   }
 }
