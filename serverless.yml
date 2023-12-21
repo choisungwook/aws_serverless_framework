@@ -43,14 +43,7 @@ resources:
                   - Ref: 'AWS::Region'
                   - Ref: 'AWS::AccountId'
                   - 'log-group:/aws/lambda/*:*:*'
-            - Effect: "Allow"
-              Action:
-              - "s3:PutObject"
-              Resource:
-                Fn::Join:
-                - ""
-                - - "arn:aws:s3:::"
-                  - "Ref": "ServerlessDeploymentBucket"
+
 
 functions:
   main:
