@@ -20,6 +20,14 @@ Subnets:
 VpcId: vpc-05db3161b9a1d612b
 ```
 
+* 도메인과 ACM 설정
+
+```bash
+export ROUTE53_HOSTED_ZONE_ID=""
+export ROUTE53_NAME=""
+export ACM_ARN=""
+```
+
 * serverless 실행
 
 ```bash
@@ -35,3 +43,5 @@ sls remove
 # 참고자료
 * https://serverlessland.com/patterns/alb-lambda-rust
 * https://serverlessland.com/patterns/alb-lambda-sls-framework
+* https://gist.github.com/rwestergren/7bf8c7f7ef5c10b93a6101c9fb8cd56b
+* https://medium.com/dazn-tech/serverless-aws-latency-routing-d11d9160699e

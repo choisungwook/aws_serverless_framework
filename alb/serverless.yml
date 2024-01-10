@@ -19,7 +19,6 @@ provider:
     Resource: '*'
 
 functions:
-  # lambda function with the alb event configured in it.
   alb-lambda-serverless:
     handler: handler.lambda_handler
     events:
@@ -32,7 +31,6 @@ functions:
 
 resources:
   Resources:
-    # security group that allows all the http/s traffic to the load balancer
     SecurityGroupALB:
       Type: AWS::EC2::SecurityGroup
       Properties:
@@ -47,7 +45,15 @@ resources:
           FromPort: 443
           ToPort: 443
           CidrIp: 0.0.0.0/0
-    # creates a internet-facing load balancer
+    Route53Record:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneId: ${env:ROUTE53_HOSTED_ZONE_ID}
+        Name: ${env:ROUTE53_NAME}
+        ResourceRecords:
+          - !GetAtt LoadBalancer.DNSName
+        Type: CNAME
+        TTL: 60
     LoadBalancer:
       Type: AWS::ElasticLoadBalancingV2::LoadBalancer
       Properties:
@@ -60,12 +66,11 @@ resources:
         -	subnet-0e52034bc9dd0cd15
         SecurityGroups:
         - {Ref: SecurityGroupALB}
-    # creates a http listener for the alb
     HTTPListener:
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
-        # Certificates:
-        # - your acm arn
+        Certificates:
+        - ${env:ACM_ARN}
         DefaultActions:
         - Type: fixed-response
           FixedResponseConfig:
@@ -74,8 +79,8 @@ resources:
             StatusCode: '404'
         LoadBalancerArn:
           Ref: LoadBalancer
-        Port: 80
-        Protocol: HTTP
+        Port: 443
+        Protocol: HTTPS
   Outputs:
     # DNS name for the load balancer that can be used to trigger the alb
     LoadBalancerDNSName:
