@@ -1,0 +1,83 @@
+service: alb-lambda-serverless
+frameworkVersion: '^3.28.1'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: python3.9
+  memorySize: 256
+  timeout: 30
+  stage: ${opt:stage, "prod"}
+  region: ${opt:region, "ap-northeast-2"}
+  iamRoleStatements:
+  - Effect: Allow
+    Action: s3:*
+    Resource: '*'
+  - Effect: Allow
+    Action:
+    - lambda:InvokeFunction
+    Resource: '*'
+
+functions:
+  # lambda function with the alb event configured in it.
+  alb-lambda-serverless:
+    handler: handler.lambda_handler
+    events:
+    - alb:
+        listenerArn: {Ref: HTTPListener}
+        priority: 1
+        conditions:
+          path: /
+          method: GET
+
+resources:
+  Resources:
+    # security group that allows all the http/s traffic to the load balancer
+    SecurityGroupALB:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: SG created via serverless framework
+        VpcId: vpc-05db3161b9a1d612b
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+    # creates a internet-facing load balancer
+    LoadBalancer:
+      Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+      Properties:
+        Name: alb-lambda
+        Type: 'application'
+        IpAddressType: 'ipv4'
+        Scheme: 'internet-facing'
+        Subnets:
+        - subnet-089714c3b311713da
+        -	subnet-0e52034bc9dd0cd15
+        SecurityGroups:
+        - {Ref: SecurityGroupALB}
+    # creates a http listener for the alb
+    HTTPListener:
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        # Certificates:
+        # - your acm arn
+        DefaultActions:
+        - Type: fixed-response
+          FixedResponseConfig:
+            ContentType: application/json
+            MessageBody: 'Page Not Found'
+            StatusCode: '404'
+        LoadBalancerArn:
+          Ref: LoadBalancer
+        Port: 80
+        Protocol: HTTP
+  Outputs:
+    # DNS name for the load balancer that can be used to trigger the alb
+    LoadBalancerDNSName:
+      Value: !GetAtt LoadBalancer.DNSName
+
